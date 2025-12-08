@@ -1,5 +1,8 @@
 name: Daily DSA Problem
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: "30 15 * * *"   # 9:00 PM IST
