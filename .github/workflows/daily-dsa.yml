@@ -2,10 +2,8 @@ name: Daily DSA Problem
 
 on:
   schedule:
-    # Runs every day at 15:30 UTC
-    # 15:30 UTC = 21:00 (9 PM) IST (UTC+5:30)
-    - cron: "30 15 * * *"
-  workflow_dispatch: {} # allow manual trigger from GitHub UI
+    - cron: "30 15 * * *"   # 9:00 PM IST
+  workflow_dispatch: {}
 
 jobs:
   send-dsa-problem:
@@ -28,3 +26,11 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node src/sendDaily.js
+
+      - name: Commit updated progress.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add progress.json
+          git commit -m "Update progress [skip ci]" || echo "No changes to commit"
+          git push
